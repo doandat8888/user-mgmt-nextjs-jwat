@@ -86,13 +86,7 @@ const ModalEditUser = ({ user, isOpen, onCloseModal, handleEditUser }: Props) =>
     };
 
     const onClose = () => {
-        setFormData({
-            username: '',
-            fullname: '',
-            role: '',
-            projects: [],
-            activeYn: ''
-        })
+        
         onCloseModal();
     }
 

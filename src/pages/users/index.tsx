@@ -1,25 +1,16 @@
-import { UserList } from '@/components/UserList';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react'
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import ModalAddUser from '@/components/ModalAddUser';
-import ModalEditUser from '@/components/ModalEditUser';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { DataTable } from './data-table';
+import { columns } from './column';
 
 const ManageUser = ({ users: initialUsers }: { users: User[] }) => {
 
     const [isOpenModalAddUser, setIsOpenModalAddUser] = useState(false);
-    const [isOpenModalEditUser, setIsOpenModalEditUser] = useState(false);
+    // const [isOpenModalEditUser, setIsOpenModalEditUser] = useState(false);
     const [users, setUsers] = useState(initialUsers);
-    const [userEdit, setUserEdit] = useState<User>();
+    // const [userEdit, setUserEdit] = useState<User>();
 
     const [searchParams, setSearchParams] = useState({
         username: '',
@@ -51,69 +42,70 @@ const ManageUser = ({ users: initialUsers }: { users: User[] }) => {
         }
     }
 
-    const handleEditUser = async (username: string, user: User) => {
-        try {
-            const response = await axios.patch(`http://localhost:8000/users/update/${username}`, {
-                ...user
-            });
-            if (response.status === 200) {
-                alert('Update user successfully');
-                fetchUsers();
-            }
-        } catch (error: any) {
-            alert(error.response.data.message);
-            console.log("Error when update user: ", error);
-        }
-    }
+    // const handleEditUser = async (username: string, user: User) => {
+    //     try {
+    //         const response = await axios.patch(`http://localhost:8000/users/update/${username}`, {
+    //             ...user
+    //         });
+    //         if (response.status === 200) {
+    //             alert('Update user successfully');
+    //             fetchUsers();
+    //         }
+    //     } catch (error: any) {
+    //         alert(error.response.data.message);
+    //         console.log("Error when update user: ", error);
+    //     }
+    // }
 
-    const handleDeleteUser = async (username: string) => {
-        try {
-            const response = await axios.delete(`http://localhost:8000/users/delete/${username}`);
-            if (response.status === 200) {
-                alert('Delete user successfully');
-                fetchUsers();
-            }
-        } catch (error: any) {
-            alert(error.response.data.message);
-            console.log("Error when delete user: ", error);
-        }
-    }
+    // const handleDeleteUser = async (username: string) => {
+    //     try {
+    //         const response = await axios.delete(`http://localhost:8000/users/delete/${username}`);
+    //         if (response.status === 200) {
+    //             alert('Delete user successfully');
+    //             fetchUsers();
+    //         }
+    //     } catch (error: any) {
+    //         alert(error.response.data.message);
+    //         console.log("Error when delete user: ", error);
+    //     }
+    // }
 
-    const handleChangeParam = (e: any) => {
-        const { id, value } = e.target;
-        setSearchParams(prevState => ({
-            ...prevState,
-            [id]: value
-        }));
-    };
+    // const handleChangeParam = (e: any) => {
+    //     const { id, value } = e.target;
+    //     setSearchParams(prevState => ({
+    //         ...prevState,
+    //         [id]: value
+    //     }));
+    // };
 
-    const handleSelectChange = (value: string) => {
-        setSearchParams(prevState => ({
-            ...prevState,
-            activeYn: value
-        }));
-    };
+    // const handleSelectChange = (value: string) => {
+    //     setSearchParams(prevState => ({
+    //         ...prevState,
+    //         activeYn: value
+    //     }));
+    // };
 
-    const handleSearch = async (e: any) => {
-        e.preventDefault();
-        try {
-            const response = await axios.get(`http://localhost:8000/users/search?username=${searchParams.username}&fullname=${searchParams.fullname}&role=${searchParams.role}&activeYn=${searchParams.activeYn}`)
-            if (response.status === 200) {
-                setUsers(response.data);
-            } else {
-                alert(response.data.message);
-            }
-        } catch (error: any) {
-            alert(error.response.data.message);
-        }
-    }
+    // const handleSearch = async (e: any) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await axios.get(`http://localhost:8000/users/search?username=${searchParams.username}&fullname=${searchParams.fullname}&role=${searchParams.role}&activeYn=${searchParams.activeYn}`)
+    //         if (response.status === 200) {
+    //             setUsers(response.data);
+    //         } else {
+    //             alert(response.data.message);
+    //         }
+    //     } catch (error: any) {
+    //         alert(error.response.data.message);
+    //     }
+    // }
 
     return (
         <div className='container py-20'>
             <div className='w-full md:w-[90%] lg:w-[80%] mx-auto space-y-10 '>
                 <div className='text-xl sm:text-2xl lg:text-3xl font-bold uppercase text-center w-full'>Manage user</div>
                 <div className=' space-y-4 lg:flex lg:space-x-4 lg:space-y-0'>
-                    <form onSubmit={handleSearch} className="space-y-4 lg:flex lg:space-x-4 lg:space-y-0">
+                    {/* Normal filter */}
+                    {/* <form onSubmit={handleSearch} className="space-y-4 lg:flex lg:space-x-4 lg:space-y-0">
                         <Input
                             id='username'
                             value={searchParams.username}
@@ -149,26 +141,25 @@ const ManageUser = ({ users: initialUsers }: { users: User[] }) => {
                         >
                             Search
                         </Button>
-                    </form>
+                    </form> */}
                     <Button className='w-full lg:w-auto' onClick={() => setIsOpenModalAddUser(true)}>Add</Button>
                 </div>
-                <UserList
-                    onEditUser={(user: User) => { setIsOpenModalEditUser(true); setUserEdit(user) }}
-                    users={users}
-                    onDeleteUser={handleDeleteUser}
-                />
+                {/* With no tanstack-table */}
+                {/* <UserList users={users} onEditUser={handleEditUser} onDeleteUser={handleDeleteUser}/> */}
+                {/* With tanstack table */}
+                <DataTable columns={columns(fetchUsers)} data={users} />
             </div>
             <ModalAddUser
                 handleAddUser={handleAddUser}
                 isOpen={isOpenModalAddUser}
                 onCloseModal={() => setIsOpenModalAddUser(false)}
             />
-            <ModalEditUser
+            {/* <ModalEditUser
                 user={userEdit}
                 handleEditUser={handleEditUser}
                 isOpen={isOpenModalEditUser}
                 onCloseModal={() => { setIsOpenModalEditUser(false); setUserEdit(undefined) }}
-            />
+            /> */}
         </div>
     )
 }
