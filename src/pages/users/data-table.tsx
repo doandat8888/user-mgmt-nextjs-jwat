@@ -170,11 +170,17 @@ export function DataTable<TData, TValue>({
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
+                                    {row.getVisibleCells().map((cell) => {
+                                        console.log(cell.id);
+                                        return (
+                                            <TableCell key={cell.id}>
+                                                {cell.column.id === 'activeYn' ? 
+                                                cell.getValue() === 'Y' ? 
+                                                <div className="bg-[#d1f4e0] text-green-500 py-1 px-2 rounded-full text-center">Active</div> : 
+                                                <div className="bg-[#fdd0df] text-red-500 py-1 px-2 rounded-full text-center">Inactive</div> : flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        )
+                                    })}
                                 </TableRow>
                             ))
                         ) : (
