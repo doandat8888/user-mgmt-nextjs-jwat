@@ -111,7 +111,7 @@ const ModalAddUser = ({ isOpen, onCloseModal, handleAddUser }: Props) => {
 
     return (
         <>
-            <Dialog open={isOpen}>
+            <Dialog open={isOpen} onOpenChange={onClose}>
                 <DialogContent className={`sm:max-w-[425px] ${inter.className}`}>
                     <DialogHeader>
                         <DialogTitle>Add new user</DialogTitle>

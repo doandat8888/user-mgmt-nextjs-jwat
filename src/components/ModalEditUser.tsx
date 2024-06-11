@@ -86,7 +86,6 @@ const ModalEditUser = ({ user, isOpen, onCloseModal, handleEditUser }: Props) =>
     };
 
     const onClose = () => {
-        
         onCloseModal();
     }
 
@@ -114,7 +113,7 @@ const ModalEditUser = ({ user, isOpen, onCloseModal, handleEditUser }: Props) =>
 
     return (
         <>
-            <Dialog open={isOpen}>
+            <Dialog open={isOpen} onOpenChange={onClose}>
                 <DialogContent className={`sm:max-w-[425px] ${inter.className}`}>
                     <DialogHeader>
                         <DialogTitle>Update info user</DialogTitle>
